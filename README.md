@@ -43,3 +43,9 @@ for design patterns examples, common javascript patterns includes
 - MVC (Model-View-Controller)
 - MVP (Model-View-Presenter)
 - MVVM (Model-View-ViewModel)
+
+for more details here is a list of good source to refer to
+
+> [Essential js pattern](https://addyosmani.com/resources/essentialjsdesignpatterns/book)
+>
+> [Comprehensive guide javascript design pattern](https://www.toptal.com/javascript/comprehensive-guide-javascript-design-patterns)
