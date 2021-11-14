@@ -1,5 +1,7 @@
 # javascript-patterns
 
+prezi link: https://prezi.com/view/gBGfTbZCLCVA3wK5PpcX/
+
 for design patterns examples, common javascript patterns includes
 
 ## Creational Design Patterns
