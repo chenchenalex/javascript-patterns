@@ -39,6 +39,6 @@ contextMenu.onClick((e)=> {
   clipboard.copy(this.value);
 })
 
-document.on('CUSTOM_COPY_EVENT', (e){
+document.on('CUSTOM_COPY_EVENT', (e) => {
   clipboard.copy(e)
 })
