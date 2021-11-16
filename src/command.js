@@ -1,44 +1,60 @@
-//  You need a command to have a life span independent of the original request
+// file A, editor and app are the actual business logic underlying, but we don't want to interact with them directly
+const editor = {
+  getSelection() {},
+  deleteSelection() {},
+  replaceSelection() {},
+};
 
-const clipboard = {
-  clipboard: '',
-  isCtrl: false,
-  isShift: true,
-  commands: {
-    '67': this.copy, // pressed C
-    '68': this.duplicate, // pressed D
+const App = {
+  clipboard: "",
+  history: {
+    queue: [],
+    push() {},
+    remove() {},
   },
-  history: [],
-  duplicate () {},
-  copy(text){
-    clipboard = text;
-    this.history.push({
-      command: 'copy',
-      payload: text
-    })
+};
 
-    if(isSelectedType === 'text'){ textCopy() }
-    if(isSelectedType === 'screen'){ screenCopy()}
-    if(isSelectedType === 'component'){ componentCopy()}
-  },
-  undo(){
-
-  },
-  redo(){
-
+class BaseCommand {
+  constructor(editor, app) {
+    this.editor = editor;
+  }
+  undo() {
+    history.pop();
+  }
+  execute(command) {
+    App.history.push(command);
   }
 }
 
+class copyCommand extends BaseCommand {
+  execute = () => {
+    super.execute();
+    App.clipboard = this.editor.getSelection();
+    this.editor.deleteSelection();
+  };
+}
+
+class pasteCommand extends BaseCommand {
+  execute = () => {
+    super.execute();
+    const selection = editor.getSelection();
+    editor.replaceSelection(App.clipboard);
+  };
+}
+
+export const copy = new copyCommand();
+export const paste = new pasteCommand();
+
+// in a different file B
+import { copy } from "clipboard";
 // scenario 1
 copyButton.onClick((e) => {
-  clipboard.copy(e.target.value);
-})
+  copy.execute();
+});
 
 // scenario 2
-contextMenu.onClick((e)=> {
-  clipboard.copy(this.value);
-})
+contextMenu.onClick((e) => {
+  copy.execute();
+});
 
-document.on('CUSTOM_COPY_EVENT', (e) => {
-  clipboard.copy(e)
-})
+document.onKeyPress("Ctrl+C", copy);
