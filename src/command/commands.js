@@ -1,4 +1,7 @@
 // The base command class defines the common interface for all
+import editor from "./editor";
+import App from "./app";
+
 // concrete commands.
 class BaseCommand {
   backup: "";
@@ -8,9 +11,6 @@ class BaseCommand {
     this.app = app;
   }
 
-  init(){
-    document.onKeyPress("Ctrl+C",  () => App.executeCommand(paste););
-  }
   undo() {
     this.editor.state = history.pop();
   }
@@ -36,22 +36,21 @@ class pasteCommand extends BaseCommand {
 }
 
 class undoCommand extends BaseCommand {
-  execute(){
+  execute() {
     this.app.undo();
   }
 }
 
 class CutCommand extends Command {
-    // The cut command does change the editor's state, therefore
-    // it must be saved to the history. And it'll be saved as
-    // long as the method returns true.
-    execute() {
-      this.saveBackup()
-      this.app.clipboard = this.editor.getSelection()
-      this.editor.deleteSelection()
-    }
+  // The cut command does change the editor's state, therefore
+  // it must be saved to the history. And it'll be saved as
+  // long as the method returns true.
+  execute() {
+    this.saveBackup();
+    this.app.clipboard = this.editor.getSelection();
+    this.editor.deleteSelection();
+  }
 }
-    
 
 export const copy = new copyCommand(editor, App);
 export const paste = new pasteCommand(editor, App);
